@@ -5,3 +5,7 @@
 .btn {
   @apply border-2 rounded-lg py-1 px-2;
 }
+
+.grid-item {
+  @apply flex flex-col items-center justify-center py-4 rounded-lg;
+}
