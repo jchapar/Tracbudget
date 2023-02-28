@@ -99,6 +99,134 @@
           </div>
         </div>
       </section>
+
+      <!-- Lists Section -->
+      <section class="lists container mx-auto p-4">
+        <!-- Grid -->
+        <div class="grid grid-cols-1 gap-2 pb-6 md:grid-cols-2">
+          <!-- Grid Item -->
+          <div>
+            <h2 class="text-2xl border-l-4 border-blue-700 pl-2 mb-2">Purchases</h2>
+            <!-- Add Purchases Form -->
+            <form id="purchases-form" class="bg-slate-200 p-4 rounded-lg space-y-4 mb-4">
+              <div>
+                <input
+                  type="text"
+                  id="purchase-name"
+                  placeholder="Enter a purchase"
+                  class="w-full py-1 px-2 rounded-md"
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  id="purchase-amount"
+                  placeholder="Purchase amount"
+                  class="w-full py-1 px-2 rounded-md"
+                />
+              </div>
+              <button type="submit" class="bg-blue-700 py-2 px-4 text-white rounded-lg">
+                Add Purchase
+              </button>
+            </form>
+
+            <!-- Purchasing Items -->
+            <div id="purchasing-items">
+              <!-- Item -->
+              <div
+                class="p-4 border-2 border-gray-200 rounded-lg flex items-center justify-between mb-2"
+              >
+                <h3 class="text-2xl">Coffee</h3>
+                <div
+                  class="flex items-center justify-center bg-blue-700 p-3 text-2xl rounded-lg text-white"
+                >
+                  $
+                  <p class="price">20</p>
+                </div>
+                <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+                  <i class="fa-solid fa-x text-white"></i>
+                </div>
+              </div>
+              <!-- Item -->
+              <div
+                class="p-4 border-2 border-gray-200 rounded-lg flex items-center justify-between mb-2"
+              >
+                <h3 class="text-2xl">Gas</h3>
+                <div
+                  class="flex items-center justify-center bg-blue-700 p-3 text-2xl rounded-lg text-white"
+                >
+                  $
+                  <p class="price">76</p>
+                </div>
+                <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+                  <i class="fa-solid fa-x text-white"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grid Item -->
+          <div>
+            <h2 class="text-2xl border-l-4 border-orange-500 pl-2 mb-2">Deposits</h2>
+            <!-- Add Deposits Form -->
+            <form id="deposits-form" class="bg-slate-200 p-4 rounded-lg space-y-4 mb-4">
+              <div>
+                <input
+                  type="text"
+                  id="deposits-name"
+                  placeholder="Enter a deposit"
+                  class="w-full py-1 px-2 rounded-md"
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  id="purchase-amount"
+                  placeholder="Deposit amount"
+                  class="w-full py-1 px-2 rounded-md"
+                />
+              </div>
+              <button type="submit" class="bg-orange-500 py-2 px-4 text-white rounded-lg">
+                Add Deposit
+              </button>
+            </form>
+
+            <!-- Deposit Items -->
+            <div id="deposit-items">
+              <!-- Item -->
+              <div
+                class="p-4 border-2 border-gray-200 rounded-lg flex items-center justify-between mb-2"
+              >
+                <h3 class="text-2xl">Paycheck</h3>
+                <div
+                  class="flex items-center justify-center bg-orange-500 p-3 text-2xl rounded-lg text-white"
+                >
+                  $
+                  <p class="price">1200</p>
+                </div>
+                <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+                  <i class="fa-solid fa-x text-white"></i>
+                </div>
+              </div>
+              <!-- Item -->
+              <div
+                class="p-4 border-2 border-gray-200 rounded-lg flex items-center justify-between mb-2"
+              >
+                <h3 class="text-2xl">Sold Xbox</h3>
+                <div
+                  class="flex items-center justify-center bg-orange-500 p-3 text-2xl rounded-lg text-white"
+                >
+                  $
+                  <p class="price">200</p>
+                </div>
+                <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+                  <i class="fa-solid fa-x text-white"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>
