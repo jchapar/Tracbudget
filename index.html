@@ -49,8 +49,8 @@
           </div>
           <!-- Grid Item -->
           <div class="grid-item bg-blue-700 text-white md:col-span-3">
-            <h2 class="text-2xl">$<span id="gain-loss">0</span></h2>
-            <p>Gain/Loss</p>
+            <h2 class="text-2xl">$<span id="total-spent">200</span></h2>
+            <p>Total Spent</p>
           </div>
           <!-- Grid Item -->
           <div class="grid-item bg-slate-300 text-black md:col-span-2">
@@ -70,8 +70,10 @@
         </div>
 
         <!-- Progress Bar -->
-        <div class="progress-bar h-[10px] w-full bg-slate-300 rounded-xl">
-          <span class="progress h-full w-full bg-blue-700"></span>
+        <div
+          class="progress-bar h-[10px] w-full bg-slate-300 rounded-xl flex overflow-hidden transition-all"
+        >
+          <span id="progress" class="progress h-full bg-blue-700 overflow-hidden ease-in"></span>
         </div>
       </section>
 
