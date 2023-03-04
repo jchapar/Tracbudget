@@ -9,3 +9,7 @@
 .grid-item {
   @apply flex flex-col items-center justify-center py-4 rounded-lg;
 }
+
+.list-item {
+  @apply p-4 border-2 border-gray-200 rounded-lg flex items-center justify-between mb-2;
+}

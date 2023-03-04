@@ -18,12 +18,14 @@ class BudgetTracker {
   addPurchase(purchase) {
     this._purchases.push(purchase)
     this._totalSpent += purchase.amount
+    this._displayNewPurchase(purchase)
     this._render()
   }
 
   addDeposit(deposit) {
     this._deposits.push(deposit)
     this._totalSpent -= deposit.amount
+    this._displayNewDeposit(deposit)
     this._render()
   }
 
@@ -56,10 +58,23 @@ class BudgetTracker {
 
   _displayBudgetRemaining() {
     const budgetRemainingEl = document.getElementById('remaining')
+    const progressEl = document.getElementById('progress')
 
     const remaining = this._budgetLimit - this._totalSpent
 
     budgetRemainingEl.innerHTML = remaining
+
+    if (remaining <= 0) {
+      budgetRemainingEl.parentElement.parentElement.classList.remove('bg-slate-300')
+      budgetRemainingEl.parentElement.parentElement.classList.add('bg-red-600')
+      progressEl.classList.remove('bg-blue-700')
+      progressEl.classList.add('bg-red-600')
+    } else {
+      budgetRemainingEl.parentElement.parentElement.classList.remove('bg-red-600')
+      budgetRemainingEl.parentElement.parentElement.classList.add('bg-slate-300')
+      progressEl.classList.remove('bg-red-600')
+      progressEl.classList.add('bg-blue-700')
+    }
   }
 
   _displayBudgetProgress() {
@@ -67,6 +82,50 @@ class BudgetTracker {
     const percentage = (this._totalSpent / this._budgetLimit) * 100
     const width = Math.min(percentage, 100)
     progressEl.style.width = `${width}%`
+  }
+
+  _displayNewPurchase(purchase) {
+    const purchasesEl = document.getElementById('purchased-items')
+    const purchaseEl = document.createElement('div')
+    purchaseEl.classList.add('list-item')
+    purchaseEl.setAttribute('data-id', purchase.id)
+
+    purchaseEl.innerHTML = `
+    <h3 class="text-2xl">${purchase.name}</h3>
+    <div
+      class="flex items-center justify-center bg-blue-700 p-3 text-2xl rounded-lg text-white"
+    >
+      $
+      <p class="price">${purchase.amount}</p>
+    </div>
+    <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+      <i class="fa-solid fa-x text-white"></i>
+    </div>
+    `
+
+    purchasesEl.appendChild(purchaseEl)
+  }
+
+  _displayNewDeposit(deposit) {
+    const depositsEl = document.getElementById('deposited-items')
+    const depositEl = document.createElement('div')
+    depositEl.classList.add('list-item')
+    depositEl.setAttribute('data-id', deposit.id)
+
+    depositEl.innerHTML = `
+    <h3 class="text-2xl">${deposit.name}</h3>
+    <div
+      class="flex items-center justify-center bg-orange-500 p-3 text-2xl rounded-lg text-white"
+    >
+      $
+      <p class="price">${deposit.amount}</p>
+    </div>
+    <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+      <i class="fa-solid fa-x text-white"></i>
+    </div>
+    `
+
+    depositsEl.appendChild(depositEl)
   }
 
   _render() {
@@ -97,18 +156,46 @@ class Deposit {
   }
 }
 
-const tracker = new BudgetTracker()
+// App Class ====================================
+class App {
+  constructor() {
+    this._tracker = new BudgetTracker()
 
-const coffee = new Purchase('coffee', 20)
-const rent = new Purchase('rent', 1200)
-const car = new Purchase('car', 800)
-tracker.addPurchase(coffee)
-tracker.addPurchase(rent)
-tracker.addPurchase(car)
+    // Submit Purchase
+    document
+      .getElementById('purchases-form')
+      .addEventListener('submit', this._newItem.bind(this, 'purchase'))
 
-const paycheck = new Deposit('Paycheck', 1200)
-tracker.addDeposit(paycheck)
+    // Submit Deposit
+    document
+      .getElementById('deposits-form')
+      .addEventListener('submit', this._newItem.bind(this, 'deposit'))
+  }
 
-console.log(tracker._purchases)
-console.log(tracker._deposits)
-console.log(tracker._totalSpent)
+  // New Purchase
+  _newItem(type, e) {
+    e.preventDefault()
+
+    const name = document.getElementById(`${type}-name`)
+    const amount = document.getElementById(`${type}-amount`)
+
+    // Validate Input
+    if (name.value === '' || amount.value === '') {
+      alert('Please fill in all fields')
+      return
+    }
+
+    if (type === 'purchase') {
+      const purchase = new Purchase(name.value, +amount.value)
+      this._tracker.addPurchase(purchase)
+    } else {
+      const deposit = new Deposit(name.value, +amount.value)
+      this._tracker.addDeposit(deposit)
+    }
+
+    name.value = ''
+    amount.value = ''
+  }
+}
+
+const app = new App()
