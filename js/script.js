@@ -29,6 +29,28 @@ class BudgetTracker {
     this._render()
   }
 
+  removePurchase(id) {
+    const index = this._purchases.findIndex((purchase) => purchase.id === id)
+
+    if (index !== -1) {
+      const purchase = this._purchases[index]
+      this._totalSpent -= purchase.amount
+      this._purchases.splice(index, 1)
+      this._render()
+    }
+  }
+
+  removeDeposit(id) {
+    const index = this._deposits.findIndex((deposit) => deposit.id === id)
+
+    if (index !== -1) {
+      const deposit = this._deposits[index]
+      this._totalSpent += deposit.amount
+      this._deposits.splice(index, 1)
+      this._render()
+    }
+  }
+
   //Private Methods
   _displayTotalSpent() {
     const totalSpentEl = document.querySelector('#total-spent')
@@ -120,7 +142,7 @@ class BudgetTracker {
       $
       <p class="price">${deposit.amount}</p>
     </div>
-    <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center just">
+    <div class="bg-red-600 px-3 py-2 rounded-lg flex items-center delete">
       <i class="fa-solid fa-x text-white"></i>
     </div>
     `
@@ -170,6 +192,16 @@ class App {
     document
       .getElementById('deposits-form')
       .addEventListener('submit', this._newItem.bind(this, 'deposit'))
+
+    // Delete Item
+    document
+      .getElementById('purchased-items')
+      .addEventListener('click', this._removeItem.bind(this, 'purchase'))
+
+    // Delete Item
+    document
+      .getElementById('deposited-items')
+      .addEventListener('click', this._removeItem.bind(this, 'deposit'))
   }
 
   // New Purchase
@@ -195,6 +227,18 @@ class App {
 
     name.value = ''
     amount.value = ''
+  }
+
+  _removeItem(type, e) {
+    if (e.target.classList.contains('delete') || e.target.classList.contains('fa-x')) {
+      if (confirm('Are you sure?')) {
+        const id = e.target.closest('.list-item').getAttribute('data-id')
+
+        type === 'purchase' ? this._tracker.removePurchase(id) : this._tracker.removeDeposit(id)
+
+        e.target.closest('.list-item').remove()
+      }
+    }
   }
 }
 
