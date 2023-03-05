@@ -202,6 +202,15 @@ class App {
     document
       .getElementById('deposited-items')
       .addEventListener('click', this._removeItem.bind(this, 'deposit'))
+
+    // Filter Purchases
+    document
+      .getElementById('filter-purchases')
+      .addEventListener('keyup', this._filterItems.bind(this, 'purchase'))
+    // Filter Deposits
+    document
+      .getElementById('filter-deposits')
+      .addEventListener('keyup', this._filterItems.bind(this, 'deposit'))
   }
 
   // New Purchase
@@ -239,6 +248,19 @@ class App {
         e.target.closest('.list-item').remove()
       }
     }
+  }
+
+  _filterItems(type, e) {
+    const text = e.target.value.toLowerCase()
+    document.querySelectorAll(`#${type}d-items .list-item`).forEach((item) => {
+      const name = item.firstElementChild.textContent
+
+      if (name.toLocaleLowerCase().indexOf(text) !== -1) {
+        item.style.display = 'flex'
+      } else {
+        item.style.display = 'none'
+      }
+    })
   }
 }
 
