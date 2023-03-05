@@ -107,7 +107,7 @@ class BudgetTracker {
   }
 
   _displayNewPurchase(purchase) {
-    const purchasesEl = document.getElementById('purchased-items')
+    const purchasesEl = document.getElementById('purchase-items')
     const purchaseEl = document.createElement('div')
     purchaseEl.classList.add('list-item')
     purchaseEl.setAttribute('data-id', purchase.id)
@@ -129,7 +129,7 @@ class BudgetTracker {
   }
 
   _displayNewDeposit(deposit) {
-    const depositsEl = document.getElementById('deposited-items')
+    const depositsEl = document.getElementById('deposit-items')
     const depositEl = document.createElement('div')
     depositEl.classList.add('list-item')
     depositEl.setAttribute('data-id', deposit.id)
@@ -195,12 +195,12 @@ class App {
 
     // Delete Item
     document
-      .getElementById('purchased-items')
+      .getElementById('purchase-items')
       .addEventListener('click', this._removeItem.bind(this, 'purchase'))
 
     // Delete Item
     document
-      .getElementById('deposited-items')
+      .getElementById('deposit-items')
       .addEventListener('click', this._removeItem.bind(this, 'deposit'))
 
     // Filter Purchases
@@ -252,7 +252,7 @@ class App {
 
   _filterItems(type, e) {
     const text = e.target.value.toLowerCase()
-    document.querySelectorAll(`#${type}d-items .list-item`).forEach((item) => {
+    document.querySelectorAll(`#${type}-items .list-item`).forEach((item) => {
       const name = item.firstElementChild.textContent
 
       if (name.toLocaleLowerCase().indexOf(text) !== -1) {
