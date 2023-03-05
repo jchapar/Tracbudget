@@ -51,6 +51,13 @@ class BudgetTracker {
     }
   }
 
+  reset() {
+    this._totalSpent = 0
+    this._purchases = []
+    this._deposits = []
+    this._render()
+  }
+
   //Private Methods
   _displayTotalSpent() {
     const totalSpentEl = document.querySelector('#total-spent')
@@ -207,10 +214,14 @@ class App {
     document
       .getElementById('filter-purchases')
       .addEventListener('keyup', this._filterItems.bind(this, 'purchase'))
+
     // Filter Deposits
     document
       .getElementById('filter-deposits')
       .addEventListener('keyup', this._filterItems.bind(this, 'deposit'))
+
+    // Reset
+    document.getElementById('reset').addEventListener('click', this._reset.bind(this))
   }
 
   // New Purchase
@@ -261,6 +272,16 @@ class App {
         item.style.display = 'none'
       }
     })
+  }
+
+  _reset() {
+    this._tracker.reset()
+
+    document.getElementById('purchase-items').innerHTML = ''
+    document.getElementById('deposit-items').innerHTML = ''
+
+    document.getElementById('filter-purchases').value = ''
+    document.getElementById('filter-deposits').value = ''
   }
 }
 
