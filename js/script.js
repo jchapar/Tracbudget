@@ -2,8 +2,8 @@
 class BudgetTracker {
   constructor() {
     this._budgetLimit = Storage.getBudgetLimit()
-    this._totalSpent = 0
-    this._purchases = []
+    this._totalSpent = Storage.getTotalSpent(0)
+    this._purchases = Storage.getPurchases()
     this._deposits = []
 
     this._displayBudgetLimit()
@@ -18,6 +18,8 @@ class BudgetTracker {
   addPurchase(purchase) {
     this._purchases.push(purchase)
     this._totalSpent += purchase.amount
+    Storage.updateTotalSpent(this._totalSpent)
+    Storage.savePurchase(purchase)
     this._displayNewPurchase(purchase)
     this._render()
   }
@@ -25,6 +27,7 @@ class BudgetTracker {
   addDeposit(deposit) {
     this._deposits.push(deposit)
     this._totalSpent -= deposit.amount
+    Storage.updateTotalSpent(this._totalSpent)
     this._displayNewDeposit(deposit)
     this._render()
   }
@@ -35,6 +38,7 @@ class BudgetTracker {
     if (index !== -1) {
       const purchase = this._purchases[index]
       this._totalSpent -= purchase.amount
+      Storage.updateTotalSpent(this._totalSpent)
       this._purchases.splice(index, 1)
       this._render()
     }
@@ -46,6 +50,7 @@ class BudgetTracker {
     if (index !== -1) {
       const deposit = this._deposits[index]
       this._totalSpent += deposit.amount
+      Storage.updateTotalSpent(this._totalSpent)
       this._deposits.splice(index, 1)
       this._render()
     }
@@ -206,6 +211,38 @@ class Storage {
 
   static setBudgetLimit(budgetLimit) {
     localStorage.setItem('budgetLimit', budgetLimit)
+  }
+
+  static getTotalSpent(defaultSpent = 0) {
+    let totalSpent
+    if (localStorage.getItem('totalSpent') === null) {
+      totalSpent = defaultSpent
+    } else {
+      totalSpent = +localStorage.getItem('totalSpent')
+    }
+    return totalSpent
+  }
+
+  static updateTotalSpent(spent) {
+    localStorage.setItem('totalSpent', spent)
+  }
+
+  static getPurchases() {
+    let purchases
+    if (localStorage.getItem('purchases') === null) {
+      purchases = []
+    } else {
+      purchases = JSON.parse(localStorage.getItem('purchases'))
+    }
+    return purchases
+  }
+
+  static savePurchase(purchase) {
+    let purchases = Storage.getPurchases()
+
+    purchases.push(purchase)
+
+    localStorage.setItem('purchases', JSON.stringify(purchases))
   }
 }
 
