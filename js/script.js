@@ -58,6 +58,12 @@ class BudgetTracker {
     this._render()
   }
 
+  setLimit(budgetLimit) {
+    this._budgetLimit = budgetLimit
+    this._displayBudgetLimit()
+    this._render()
+  }
+
   //Private Methods
   _displayTotalSpent() {
     const totalSpentEl = document.querySelector('#total-spent')
@@ -220,6 +226,14 @@ class App {
       .getElementById('filter-deposits')
       .addEventListener('keyup', this._filterItems.bind(this, 'deposit'))
 
+    // Open/Close Budget limit
+    document.getElementById('set-budget').addEventListener('click', this._budgetModal.bind(this))
+
+    // Update limit
+    document
+      .getElementById('budget-limit-form')
+      .addEventListener('submit', this._setLimit.bind(this))
+
     // Reset
     document.getElementById('reset').addEventListener('click', this._reset.bind(this))
   }
@@ -272,6 +286,36 @@ class App {
         item.style.display = 'none'
       }
     })
+  }
+
+  _budgetModal() {
+    const modal = document.getElementById('budget-limit-modal')
+
+    if (modal.classList.contains('hidden')) {
+      modal.classList.remove('hidden')
+      modal.classList.add('fixed')
+    } else if (modal.classList.contains('fixed')) {
+      modal.classList.remove('fixed')
+      modal.classList.add('hidden')
+    }
+  }
+
+  _setLimit(e) {
+    e.preventDefault()
+
+    const limit = document.getElementById('limit')
+
+    if (limit.value === '') {
+      alert('Please add a limit')
+      return
+    }
+
+    this._tracker.setLimit(+limit.value)
+
+    limit.value = ''
+
+    document.getElementById('budget-limit-modal').classList.remove('fixed')
+    document.getElementById('budget-limit-modal').classList.add('hidden')
   }
 
   _reset() {
