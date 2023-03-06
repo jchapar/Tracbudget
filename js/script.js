@@ -1,7 +1,7 @@
 // Budget Tracker Class ====================================
 class BudgetTracker {
   constructor() {
-    this._budgetLimit = 2200
+    this._budgetLimit = Storage.getBudgetLimit()
     this._totalSpent = 0
     this._purchases = []
     this._deposits = []
@@ -60,6 +60,7 @@ class BudgetTracker {
 
   setLimit(budgetLimit) {
     this._budgetLimit = budgetLimit
+    Storage.setBudgetLimit(budgetLimit)
     this._displayBudgetLimit()
     this._render()
   }
@@ -188,6 +189,23 @@ class Deposit {
     this.id = Math.random().toString(16).slice(2)
     this.name = name
     this.amount = amount
+  }
+}
+
+// Storage Class ====================================
+class Storage {
+  static getBudgetLimit(defaultLimit = 2000) {
+    let budgetLimit
+    if (localStorage.getItem('budgetLimit') === null) {
+      budgetLimit = defaultLimit
+    } else {
+      budgetLimit = +localStorage.getItem('budgetLimit')
+    }
+    return budgetLimit
+  }
+
+  static setBudgetLimit(budgetLimit) {
+    localStorage.setItem('budgetLimit', budgetLimit)
   }
 }
 
